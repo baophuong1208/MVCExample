@@ -42,7 +42,47 @@ public class UserDAO {
         return null;
 
     }
+    
+    public List<String> getlistID(){
+        List<String> listid = new ArrayList();
+            String id_query = "select id from user";
+        try {
+            
+            PreparedStatement prepareStatement = connect.prepareStatement(id_query);
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){     
+                String string = rs.getString("id");
+                listid.add(string);
+            }
+           
+               
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listid;
+        
+    }
 
+        public List<String> getlistUserName(){
+        List<String> listname = new ArrayList();
+            String id_query = "select name from user";
+        try {
+            
+            PreparedStatement prepareStatement = connect.prepareStatement(id_query);
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                
+                String string = rs.getString("name");
+                listname.add(string);
+            }
+           
+               
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listname;
+        
+    }
     public boolean insertUser(User u) {
         try {
 
@@ -72,10 +112,49 @@ public class UserDAO {
             prepareStatement.setString(1, id);
             ResultSet rs = prepareStatement.executeQuery();
             while (rs.next()) {
-//                String id = rs.getString(1);
-//                String name = rs.getString(2);
-//                String role = rs.getString(3);
-//                String parent_id = rs.getString(4);
+                u.setId_user(rs.getString(1));
+                u.setName_user(rs.getString(2));
+                u.setRole(rs.getString(3));
+                u.setId_parent(rs.getString(4));
+            }
+            return u;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public User getUserByUserName(String name) {
+        try {
+            User u = null;
+            String query = "select * from user where name=?";
+            PreparedStatement prepareStatement = connect.prepareStatement(query);
+            prepareStatement.setString(1, name);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
+                u = new User();
+                u.setId_user(rs.getString(1));
+                u.setName_user(rs.getString(2));
+                u.setRole(rs.getString(3));
+                u.setId_parent(rs.getString(4));
+            }
+            return u;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public User getUserByRole(String role) {
+        try {
+            User u = new User();
+            String query = "select * from user where role=?";
+            PreparedStatement prepareStatement = connect.prepareStatement(query);
+            prepareStatement.setString(1, role);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
                 u.setId_user(rs.getString(1));
                 u.setName_user(rs.getString(2));
                 u.setRole(rs.getString(3));
