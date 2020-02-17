@@ -14,33 +14,17 @@ import model.User;
 
 public class UserService {
 
-    UserDAO user = new UserDAO();
-    User u = new User();
-    PermissionService role = new PermissionService();
+    UserDAO userDao = new UserDAO();
+    PermissionService permissionService = new PermissionService();
     Connection connect = ConnectDB.openconnect();
        
    
             
         
 
-    public void insertUser(User u) { 
-//        if (role.getRolesLoggedInUser().equalsIgnoreCase("user")) {
-//            System.out.println("khong co quyen");
-//        } 
-        if(role.getRolesLoggedInUser().equalsIgnoreCase("superadmin")){
-        System.out.println("nhap role");
-        u.setRole(new Scanner(System.in).nextLine());
-        u.setId_parent(role.getIDLoggedInUser());
-        user.insertUser(u);
-        }
-
-        if (role.getRolesLoggedInUser().equalsIgnoreCase("admin")) {
-            System.out.println("role = user");
-            u.setRole("user");
-            u.setId_parent(role.getIDLoggedInUser());
-            user.insertUser(u);
-        }
-        
+    public void insertUser(User u) {
+        u.setId_parent(permissionService.getIDLoggedInUser());
+        userDao.insertUser(u);   
     }
     
         public boolean kiemTraTrung(String t, List a){

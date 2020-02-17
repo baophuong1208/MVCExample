@@ -3,6 +3,8 @@ package thang2;
 import DAO.UserDAO;
 import Service.PermissionService;
 import Service.UserService;
+import Service.ValidationService;
+import java.util.Arrays;
 import java.util.Scanner;
 import model.User;
 
@@ -11,6 +13,9 @@ public class MainClass {
     public static String loginUser = "";
     public static String idUserLogged = "";
     private PermissionService permissionService = new PermissionService();
+    private UserService userService = new UserService();
+    private ValidationService validationService = new ValidationService();
+    private Scanner input = new Scanner(System.in);
 
     public void Menu(int n) {
         System.out.println("1: them tai khoan");
@@ -21,7 +26,7 @@ public class MainClass {
         switch (n) {
             case 1: {
                 insertUser();
-
+                break;
             }
             case 2: {
 
@@ -39,14 +44,24 @@ public class MainClass {
     }
 
     private void insertUser() {
-        UserService insert = new UserService();
-        User u = new User();
-        if (permissionService.getRolesLoggedInUser().equalsIgnoreCase("user")) {
-            System.out.println("khong co quyen");
-        } else {
-            u.nhapUser();
-            insert.insertUser(u);
+        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+            User u = inputUser();
+            if (!validationService.validateUser(u)) {
+                return;
+            }
+            userService.insertUser(u);
         }
+
+    }
+
+    private User inputUser() {
+        User u = new User();
+        System.out.println("Nhap thong tin User");
+        System.out.println("Nhap ten User");
+        u.setName_user(input.nextLine());
+        System.out.println("Nhap Role");
+        u.setRole(input.nextLine());
+        return u;
     }
 
     public boolean login() {

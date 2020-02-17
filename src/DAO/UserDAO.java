@@ -85,13 +85,11 @@ public class UserDAO {
     }
     public boolean insertUser(User u) {
         try {
-
-            String themUser = "insert into user values(?,?,?,?)";
+            String themUser = "insert (username,roles,parent_) into user values(?,?,?)";
             PreparedStatement createStatement = connect.prepareStatement(themUser);
-            createStatement.setString(1, u.getId_user());
-            createStatement.setString(2, u.getName_user());
-            createStatement.setString(3, u.getRole());
-            createStatement.setString(4, u.getId_parent());
+            createStatement.setString(1, u.getName_user());
+            createStatement.setString(2, u.getRole());
+            createStatement.setString(3, u.getId_parent());
             int rs = createStatement.executeUpdate();
             if (rs != 0) {
                 return true;
