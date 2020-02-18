@@ -37,8 +37,7 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
-
-        if (permissionService.isCreateUser(id)) {
+        if(validationService.validateDelete(id)){
             userDao.deleteUserByID(id);
         } else {
             System.out.println("khong phai la nguoi tao user nen khong co quyen xoa");

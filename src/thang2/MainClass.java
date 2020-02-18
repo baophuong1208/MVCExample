@@ -2,11 +2,13 @@ package thang2;
 
 import DAO.UserDAO;
 import Service.PermissionService;
+import Service.ProductService;
 import Service.UserService;
 import Service.ValidationService;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
+import model.Product;
 import model.User;
 
 public class MainClass {
@@ -19,6 +21,7 @@ public class MainClass {
     private ValidationService validationService = new ValidationService();
     private Scanner input = new Scanner(System.in);
     private UserDAO userDao = new UserDAO();
+    private ProductService productService =new ProductService();
 
     public void Menu(int n) {
         System.out.println("1: them tai khoan");
@@ -94,6 +97,34 @@ public class MainClass {
             return;
         }
 
+    }
+    
+//    private void insertProduct(){
+//         if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+//            Product u = inputProduct();
+//
+//            if (!validationService.validateUser(u)) {
+//
+//                return;
+//            }
+//            UserDAO userDAO = new UserDAO();
+//            userDAO.insertUser(u);
+//        }
+//        
+//    }
+    
+    
+    private Product inputProduct(){
+        Product product = new Product();
+        System.out.println("nhap thong tin san pham: ");
+        System.out.println("nhap ten san pham ");
+        product.setNameProduct(input.nextLine());
+        productService.insertProduct(product);
+        System.out.println("so luong");
+        product.setQuantity(input.nextInt());
+        System.out.println("loai");
+        product.setType(input.nextLine());
+       return product;
     }
 
     public boolean login() {

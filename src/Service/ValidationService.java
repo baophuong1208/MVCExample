@@ -5,9 +5,11 @@
  */
 package Service;
 
+import DAO.ProductDAO;
 import DAO.UserDAO;
 import java.util.Arrays;
 import java.util.Objects;
+import model.Product;
 import model.User;
 
 /**
@@ -18,6 +20,7 @@ public class ValidationService {
 
     private UserDAO userDao = new UserDAO();
     private PermissionService permissionService = new PermissionService();
+    private ProductDAO productDAO = new ProductDAO();
 
     public boolean validateUser(User u) {
         User getUserByName = userDao.getUserByUserName(u.getNameUser());
@@ -65,5 +68,7 @@ public class ValidationService {
         }
         return false;
     }
+    
+
 
 }
