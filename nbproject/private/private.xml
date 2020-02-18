@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Connection/ConnectDB.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/DAO/UserDAO.java</file>
-            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/model/User.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/model/Product.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/PermissionService.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/ProductService.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/DAO/ProductDAO.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/thang2/MainClass.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/UserService.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/ValidationService.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,10 +5,24 @@
  */
 package Service;
 
+import DAO.ProductDAO;
+import DAO.UserDAO;
+import java.util.Scanner;
+import model.Product;
+import model.User;
+
 /**
  *
  * @author Kien.NTK
  */
 public class ProductService {
+    public void insertProduct(Product pr){
+        UserDAO ud = new UserDAO();
+           PermissionService ps = new PermissionService();
+           pr.setUser(ud.getUserByID(ps.getIDLoggedInUser()));
+        
+        }
+        
+    }
     
-}
+

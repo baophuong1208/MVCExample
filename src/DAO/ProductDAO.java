@@ -24,9 +24,9 @@ public class ProductDAO {
             ResultSet rs = prepareStatement.executeQuery();
             while (rs.next()) {
                 Product pr = new Product();
-                pr.setId_product(rs.getString(1));
-                pr.setName_product(rs.getString(2));
-                pr.setUser(new UserDAO().getUserByID(rs.getString(3)));
+                pr.setIdProduct(rs.getInt(1));
+                pr.setNameProduct(rs.getString(2));
+                pr.setUser(new UserDAO().getUserByID(rs.getInt(3)));
                 pr.setQuantity(rs.getInt(4));
                 pr.setType(rs.getString(5));
                 pr.setPrice(rs.getDouble(6));
@@ -35,21 +35,56 @@ public class ProductDAO {
             return listproduct;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         return null;
     }
+        public List<Integer> getListIDProduct() {
+        try {
 
-    public Product getProductByID(String id) {
-        String query = "select * from product where id_product = ?";
+            List<Integer> listidproduct = new ArrayList<>();
+            String query = "select idProduct from product";
+            PreparedStatement prepareStatement = connect.prepareStatement(query);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
+                int a =rs.getInt("idProduct");
+                listidproduct.add(a);
+            }
+            return listidproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+    }
+          public List<String> getListNameProduct() {
+        try {
+
+            List<String> listnameproduct = new ArrayList<>();
+            String query = "select nameProduct from product";
+            PreparedStatement prepareStatement = connect.prepareStatement(query);
+            ResultSet rs = prepareStatement.executeQuery();
+            while (rs.next()) {
+                String a =rs.getString("nameProduct");
+                listnameproduct.add(a);
+            }
+            return listnameproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+    }
+            
+
+    public Product getProductByID(int id) {
+        String query = "select * from product where idProduct = ?";
         try {
             PreparedStatement prepareStatement = connect.prepareStatement(query);
-            prepareStatement.setString(1, id);
+            prepareStatement.setInt(1, id);
             ResultSet rs = prepareStatement.executeQuery();
             Product pr = new Product();
             while (rs.next()) {
-                pr.setId_product(rs.getString(1));
-                pr.setName_product(rs.getString(2));
-                pr.setUser(new UserDAO().getUserByID(rs.getString(3)));
+                pr.setIdProduct(rs.getInt(1));
+                pr.setNameProduct(rs.getString(2));
+                pr.setUser(new UserDAO().getUserByID(rs.getInt(3)));
                 pr.setQuantity(rs.getInt(3));
                 pr.setType(rs.getString(4));
                 pr.setPrice(rs.getDouble(5));
@@ -62,13 +97,13 @@ public class ProductDAO {
     }
 
     public boolean insertProduct(Product pr) {
-        String query = "insert into product values(?,?,?,?,?,?)";
+        String query = "insert  into product(nameProduct, idUser,quantity,type,price) values(?,?,?,?,?)";
 
         try {
             PreparedStatement prepareStatement = connect.prepareStatement(query);
-            prepareStatement.setString(1, pr.getId_product());
-            prepareStatement.setString(2, pr.getName_product());
-            prepareStatement.setString(3, pr.getUser().getId_user());
+//            prepareStatement.setString(1, pr.getIdProduct());
+            prepareStatement.setString(1, pr.getNameProduct());
+            prepareStatement.setInt(2, pr.getUser().getIdUser());
             prepareStatement.setInt(4, pr.getQuantity());
             prepareStatement.setString(5, pr.getType());
             prepareStatement.setDouble(6, pr.getPrice());
@@ -84,12 +119,12 @@ public class ProductDAO {
     }
 
     public boolean updateProductByID(String id, Product pr) {
-        String query = "update product SET id =?, name =?, user_id =?,quantity=?,type=?,price=? WHERE id=? ";
+        String query = "update product SET idProduct =?, nameProduct =?, idUser =?,quantity=?,type=?,price=? WHERE idProduct=? ";
         try {
             PreparedStatement prepareStatement = connect.prepareStatement(query);
-            prepareStatement.setString(1, pr.getId_product());
-            prepareStatement.setString(2, pr.getName_product());
-            prepareStatement.setString(3, pr.getUser().getId_user());
+            prepareStatement.setInt(1, pr.getIdProduct());
+            prepareStatement.setString(2, pr.getNameProduct());
+            prepareStatement.setInt(3, pr.getUser().getIdUser());
             prepareStatement.setInt(4, pr.getQuantity());
             prepareStatement.setString(5, pr.getType());
             prepareStatement.setDouble(6, pr.getPrice());
@@ -103,11 +138,11 @@ public class ProductDAO {
         return false;
     }
 
-    public boolean deleteProductByID(String id) {
-        String query = "delete from product where id = ?";
+    public boolean deleteProductByID(int id) {
+        String query = "delete from product where idProduct = ?";
         try {
             PreparedStatement prepareStatement = connect.prepareStatement(query);
-            prepareStatement.setString(1, id);
+            prepareStatement.setInt(1, id);
             int rs = prepareStatement.executeUpdate();
             if (rs != 0) {
                 return true;

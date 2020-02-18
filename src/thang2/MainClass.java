@@ -5,17 +5,20 @@ import Service.PermissionService;
 import Service.UserService;
 import Service.ValidationService;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import model.User;
 
 public class MainClass {
 
     public static String loginUser = "";
-    public static String idUserLogged = "";
+//    public static String roleUserLogged ="";
+    public static int idUserLogged = 0;
     private PermissionService permissionService = new PermissionService();
     private UserService userService = new UserService();
     private ValidationService validationService = new ValidationService();
     private Scanner input = new Scanner(System.in);
+    private UserDAO userDao = new UserDAO();
 
     public void Menu(int n) {
         System.out.println("1: them tai khoan");
@@ -27,12 +30,15 @@ public class MainClass {
             case 1: {
                 insertUser();
                 break;
+
             }
             case 2: {
+                updateUser();
 
                 break;
             }
             case 3: {
+                deleteUser();
 
                 break;
             }
@@ -46,10 +52,13 @@ public class MainClass {
     private void insertUser() {
         if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
             User u = inputUser();
+
             if (!validationService.validateUser(u)) {
+
                 return;
             }
-            userService.insertUser(u);
+            UserDAO userDAO = new UserDAO();
+            userDAO.insertUser(u);
         }
 
     }
@@ -58,10 +67,33 @@ public class MainClass {
         User u = new User();
         System.out.println("Nhap thong tin User");
         System.out.println("Nhap ten User");
-        u.setName_user(input.nextLine());
+        u.setNameUser(input.nextLine());
         System.out.println("Nhap Role");
         u.setRole(input.nextLine());
+        userService.insertUser(u);
         return u;
+    }
+
+    private void updateUser() {
+        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+            System.out.println("nhap idUser can sua");
+            int id = Integer.parseInt(input.nextLine());
+            System.out.println("nhap thong tin can sua");
+            User u = inputUser();
+            userService.updateUser(u, id);
+
+        }
+
+    }
+
+    private void deleteUser() {
+        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+            System.out.println("nhap idUser can xoa");
+            int id = Integer.parseInt(input.nextLine());
+            userService.deleteUser(id);
+            return;
+        }
+
     }
 
     public boolean login() {
@@ -79,6 +111,7 @@ public class MainClass {
                 } else {
 
                 }
+            } else {
             }
             running.Menu(n);
 

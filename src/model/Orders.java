@@ -5,17 +5,26 @@ import java.util.Date;
 import java.util.List;
 
 public class Orders {
-    private String id_order;
+    private int idOrder;
     private Date time;
     private User user;
-    private List<Product> list_product;
+    private List<Product> listProduct;
 
-    public String getId_order() {
-        return id_order;
+    public int getIdOrder() {
+        return idOrder;
     }
 
-    public void setId_order(String id_order) {
-        this.id_order = id_order;
+    public void setIdOrder(int idOrder) {
+        this.idOrder = idOrder;
+    }
+
+
+    public List<Product> getListProduct() {
+        return listProduct;
+    }
+
+    public void setListProduct(List<Product> listProduct) {
+        this.listProduct = listProduct;
     }
 
     public Date getTime() {
@@ -34,14 +43,7 @@ public class Orders {
         this.user = user;
     }
 
-    public List<Product> getList_product() {
-        return list_product;
-    }
 
-    public void setList_product(List<Product> list_product) {
-        this.list_product = list_product;
-    }
-    
     
     
     

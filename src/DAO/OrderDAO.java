@@ -16,16 +16,16 @@ public class OrderDAO {
     Connection connect = ConnectDB.openconnect();
     public List<Orders> getListOrder(){
         List<Orders> listorder = new ArrayList<>();
-        String query = "SELECT  order_product.order_id,order_product.product_id,orders.user_id,orders.times FROM ((order_product INNER JOIN orders ON orders.id = order_product.order_id) INNER JOIN product ON  product.id=order_product.product_id );";
+        String query = "SELECT  orderProduct.idOrder,orderProduct.idProduct, orders.idUser,orders.times FROM ((orderProduct INNER JOIN orders ON orders.idOrder = orderProduct.idOrder) INNER JOIN product ON  product.idProduct=orderProduct.idProduct );";
         try {
             PreparedStatement prepareStatement = connect.prepareStatement(query);
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Orders order = new Orders();
-                order.setId_order(rs.getString(1));
+                order.setIdOrder(rs.getInt(1));
                 order.setTime(rs.getTime(2));
-                order.setUser(new UserDAO().getUserByID(rs.getString(3)));
-                order.setList_product(new ProductDAO().getListProduct());
+                order.setUser(new UserDAO().getUserByID(rs.getInt(3)));
+                order.setListProduct(new ProductDAO().getListProduct());
                 
              listorder.add(order);
             }
