@@ -1,5 +1,6 @@
 package thang2;
 
+import DAO.ProductDAO;
 import DAO.UserDAO;
 import Service.PermissionService;
 import Service.ProductService;
@@ -12,23 +13,26 @@ import model.Product;
 import model.User;
 
 public class MainClass {
-
-    public static String loginUser = "";
-//    public static String roleUserLogged ="";
     public static int idUserLogged = 0;
+    public static String loginUser = "";
     private PermissionService permissionService = new PermissionService();
     private UserService userService = new UserService();
     private ValidationService validationService = new ValidationService();
     private Scanner input = new Scanner(System.in);
     private UserDAO userDao = new UserDAO();
-    private ProductService productService =new ProductService();
+    private ProductService productService = new ProductService();
+    private ProductDAO productDAO = new ProductDAO();
 
     public void Menu(int n) {
         System.out.println("1: them tai khoan");
         System.out.println("2: Sua tai khoan");
         System.out.println("3: Xoa tai khoan");
-        System.out.println("4: Dang xuat");
-        n = new Scanner(System.in).nextInt();
+        System.out.println("4: Them san pham");
+        System.out.println("5: sua san pham");
+        System.out.println("6: Xoa san pham");
+        System.out.println("10: Dang xuat");
+       n = Integer.parseInt(input.nextLine());
+
         switch (n) {
             case 1: {
                 insertUser();
@@ -46,6 +50,18 @@ public class MainClass {
                 break;
             }
             case 4: {
+                insertProduct();
+                break;
+            }
+            case 5: {
+                updateProduct();
+                break;
+            }
+            case 6: {
+                deleteProduct();
+                break;
+            }
+            case 10: {
                 permissionService.logout();
                 break;
             }
@@ -53,15 +69,15 @@ public class MainClass {
     }
 
     private void insertUser() {
-        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+        if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             User u = inputUser();
 
             if (!validationService.validateUser(u)) {
 
                 return;
             }
-            UserDAO userDAO = new UserDAO();
-            userDAO.insertUser(u);
+            userDao.insertUser(u);
+
         }
 
     }
@@ -78,7 +94,7 @@ public class MainClass {
     }
 
     private void updateUser() {
-        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+        if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             System.out.println("nhap idUser can sua");
             int id = Integer.parseInt(input.nextLine());
             System.out.println("nhap thong tin can sua");
@@ -90,41 +106,55 @@ public class MainClass {
     }
 
     private void deleteUser() {
-        if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
+        if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             System.out.println("nhap idUser can xoa");
             int id = Integer.parseInt(input.nextLine());
             userService.deleteUser(id);
-            return;
         }
 
     }
+
+    private void insertProduct() {
+        if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
+            Product product = inputProduct();
+            if (!validationService.validateProduct(product)) {
+                return;
+            }
+            productDAO.insertProduct(product);
+        }
+    }
+
+    private void updateProduct() {
+        if (permissionService.loggedInUserHasRole(Arrays.asList("admin","superadmin"))) {
+            System.out.println("nhap id san pham can sua: ");
+            int id = Integer.parseInt(input.nextLine());
+            System.out.println("nhap thong tin san pham sua");
+            Product product = inputProduct();
+            productService.updateProduct(product, id);
+        }
+    }
     
-//    private void insertProduct(){
-//         if (permissionService.userHasRole(Arrays.asList("admin", "superadmin"))) {
-//            Product u = inputProduct();
-//
-//            if (!validationService.validateUser(u)) {
-//
-//                return;
-//            }
-//            UserDAO userDAO = new UserDAO();
-//            userDAO.insertUser(u);
-//        }
-//        
-//    }
-    
-    
-    private Product inputProduct(){
+    private void deleteProduct(){
+            if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
+            System.out.println("nhap idProduct can xoa");
+            int idproduct = Integer.parseInt(input.nextLine());
+            productService.deleteProduct(idproduct);
+        }
+    }
+
+    private Product inputProduct() {
         Product product = new Product();
         System.out.println("nhap thong tin san pham: ");
         System.out.println("nhap ten san pham ");
         product.setNameProduct(input.nextLine());
         productService.insertProduct(product);
         System.out.println("so luong");
-        product.setQuantity(input.nextInt());
+        product.setQuantity(Integer.parseInt(input.nextLine()));
         System.out.println("loai");
         product.setType(input.nextLine());
-       return product;
+        System.out.println("gia");
+        product.setPrice(Float.parseFloat(input.nextLine()));
+        return product;
     }
 
     public boolean login() {
@@ -146,7 +176,7 @@ public class MainClass {
             }
             running.Menu(n);
 
-        } while (n != 4);
+        } while (n != 10);
 
     }
 }

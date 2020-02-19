@@ -29,7 +29,7 @@ public class ValidationService {
             return false;
         }
 
-        if (permissionService.getRolesLoggedInUser().equals("admin")) {
+        if (permissionService.getLoggedInUserRoles().equals("admin")) {
             if (!u.getRole().equals("user")) {
                 System.out.println("Admin khong duoc tao user co role super admin hoac admin");
                 return false;
@@ -38,37 +38,39 @@ public class ValidationService {
         return true;
     }
 
-    public boolean validateUpdateUser(int id) {
+    public boolean checkUserHasPermissionOnUser(int id) {
         User user = userDao.getUserByID(id);
         if (Objects.nonNull(user)) {
-            if (permissionService.userHasRole(Arrays.asList("superadmin"))) {
-                return true;
-            }
-            if (permissionService.userHasRole(Arrays.asList("admin"))) {
-                if (permissionService.isCreateUser(id)) {
+            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
+                if (permissionService.isCreatedByLoggedInUser(id)) {
                     return true;
                 }
             }
+
         }
         return false;
     }
 
-    public boolean validateDelete(int id) {
-        User user = userDao.getUserByID(id);
-        if (Objects.nonNull(user)) {
-            if (permissionService.userHasRole(Arrays.asList("superadmin"))) {
-                return true;
+    public boolean validateProduct(Product p) {
+        Product product = productDAO.getProductByName(p.getNameProduct());
+        if (Objects.nonNull(product)) {
+            System.out.println("san pham da ton tai");
+            return false;
+        }
+        return true;
+    }
 
-            }
-            if (permissionService.userHasRole(Arrays.asList("admin"))) {
-                if (permissionService.isCreateUser(id)) {
+    public boolean checkUserHasPermissionOnProduct(int id) {
+        Product product = productDAO.getProductByID(id);
+        if (Objects.nonNull(product)) {
+            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) { 
+                if (permissionService.productIsCreatedByLoggedInUser(product.getUser().getIdUser())) {
                     return true;
                 }
+
             }
+
         }
         return false;
     }
-    
-
-
 }

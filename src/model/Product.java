@@ -108,6 +108,8 @@ public class Product {
 //           System.out.println("nhap type: ");
 //           type = new Scanner(System.in).nextLine();
 //           
+
+
     }
 
 

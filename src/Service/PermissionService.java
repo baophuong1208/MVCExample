@@ -12,7 +12,8 @@ import thang2.MainClass;
 
 public class PermissionService {
 
-    UserDAO userDao = new UserDAO();
+    private UserDAO userDao = new UserDAO();
+    private ProductDAO productDAO = new ProductDAO();
 
     public boolean login(String name) {
 
@@ -26,11 +27,11 @@ public class PermissionService {
         }
     }
 
-    public String getRolesLoggedInUser() {
+    public String getLoggedInUserRoles() {
         return MainClass.loginUser;
     }
 
-    public int getIDLoggedInUser() {
+    public int getLoggedInUserID() {
         return MainClass.idUserLogged;
 
     }
@@ -39,9 +40,10 @@ public class PermissionService {
         MainClass.loginUser = "";
     }
 
-    public boolean userHasRole(List<String> rolesAccess) {
+    public boolean loggedInUserHasRole(List<String> rolesAccess) {
+
         for (String role : rolesAccess) {
-            if (getRolesLoggedInUser().equalsIgnoreCase(role)) {
+            if (getLoggedInUserRoles().equalsIgnoreCase(role)) {
                 return true;
             }
         }
@@ -50,8 +52,12 @@ public class PermissionService {
         return false;
     }
 
-    public boolean isCreateUser(int id) {
+    public boolean isCreatedByLoggedInUser(int id) {
         User u = userDao.getUserByID(id);
+        if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
+        } else {
+            return true;
+        }
         if (u != null) {
             if (MainClass.idUserLogged == u.getIdParent()) {
                 return true;
@@ -60,12 +66,14 @@ public class PermissionService {
         return false;
     }
 
-    public boolean isCreatProduct(int id) {
-        if (userHasRole(Arrays.asList("admin"))) {
-            ProductDAO pd = new ProductDAO();
-            Product p = pd.getProductByID(id);
-            if (p != null) {
-                if (MainClass.idUserLogged == p.getUser().getIdUser()) {
+    public boolean productIsCreatedByLoggedInUser(int id) {
+        Product product = productDAO.getProductByID(id);
+        if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
+            return true;
+        }
+        if (loggedInUserHasRole(Arrays.asList("admin"))) {
+            if (product != null) {
+                if (MainClass.idUserLogged == product.getUser().getIdUser()) {
                     return true;
                 }
             }

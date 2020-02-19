@@ -9,12 +9,27 @@ import model.User;
 
 
 public class ProductService {
-    PermissionService permissionService = new PermissionService();
-    ProductDAO productDAO = new ProductDAO();
-    UserDAO userDAO = new UserDAO();
+    private PermissionService permissionService = new PermissionService();
+    private ProductDAO productDAO = new ProductDAO();
+    private UserDAO userDAO = new UserDAO();
+    private  ValidationService validationService = new ValidationService();
     public void insertProduct(Product product){
-        product.setUser(userDAO.getUserByID(permissionService.getIDLoggedInUser()));      
+        product.setUser(userDAO.getUserByID(permissionService.getLoggedInUserID()));      
         }
+    
+    public void updateProduct(Product product, int id){
+        if (validationService.checkUserHasPermissionOnProduct(id)){
+            productDAO.updateProductByID(id,product);
+        }
+        return;
+    }
+    
+    public void deleteProduct(int idproduct){
+          if (validationService.checkUserHasPermissionOnProduct(idproduct)){
+            productDAO.deleteProductByID(idproduct);
+        }
+      
+    }
     
         
     }
