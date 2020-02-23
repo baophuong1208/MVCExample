@@ -1,12 +1,14 @@
 
 package model;
 
-import java.util.Date;
+import java.sql.Time;
 import java.util.List;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Orders {
     private int idOrder;
-    private Date time;
+    private Timestamp time; 
     private User user;
     private List<Product> listProduct;
 
@@ -27,11 +29,11 @@ public class Orders {
         this.listProduct = listProduct;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
@@ -42,8 +44,16 @@ public class Orders {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    public void output(){
+        System.out.println("Thong tin order: ");
+        System.out.println("Time: "+time);
+        System.out.println("ID User: "+user.getIdUser());
 
+      
+    }
 
+ 
     
     
     

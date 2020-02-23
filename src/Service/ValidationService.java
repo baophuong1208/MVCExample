@@ -5,10 +5,12 @@
  */
 package Service;
 
+import DAO.OrderDAO;
 import DAO.ProductDAO;
 import DAO.UserDAO;
 import java.util.Arrays;
 import java.util.Objects;
+import model.Orders;
 import model.Product;
 import model.User;
 
@@ -21,6 +23,7 @@ public class ValidationService {
     private UserDAO userDao = new UserDAO();
     private PermissionService permissionService = new PermissionService();
     private ProductDAO productDAO = new ProductDAO();
+    private OrderDAO orderDAO = new OrderDAO();
 
     public boolean validateUser(User u) {
         User getUserByName = userDao.getUserByUserName(u.getNameUser());
@@ -38,7 +41,7 @@ public class ValidationService {
         return true;
     }
 
-    public boolean checkUserHasPermissionOnUser(int id) {
+    public boolean LoggedInUserHasPermissionOnUser(int id) {
         User user = userDao.getUserByID(id);
         if (Objects.nonNull(user)) {
             if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
@@ -63,13 +66,26 @@ public class ValidationService {
     public boolean checkUserHasPermissionOnProduct(int id) {
         Product product = productDAO.getProductByID(id);
         if (Objects.nonNull(product)) {
-            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) { 
+            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
                 if (permissionService.productIsCreatedByLoggedInUser(product.getUser().getIdUser())) {
                     return true;
                 }
 
             }
 
+        }
+        return false;
+    }
+
+    public boolean checkUserHasPermissionOnOrder(int id) {
+        Orders order = orderDAO.getOrderById(id);
+        if (Objects.nonNull(order)) {
+            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
+                if (permissionService.orderIsCreatedByLoggedInUser(id)) {
+                    return true;
+                }
+
+            }
         }
         return false;
     }

@@ -65,49 +65,17 @@ public class Product {
     public void setType(String type) {
         this.type = type;
     }
-    
-//    public void nhapProduct(){
-//        ProductDAO prd = new ProductDAO();
-//       List<String> listid= prd.getListIDProduct();
-//       List<String> listname = prd.getListNameProduct();
-//        PermissionService ps = new PermissionService();
-//          int flag =0;
-//          int flag2=0;
-//        do{
-//        System.out.println("Nhap id: ");
-//         String id = new Scanner(System.in).nextLine();
-//         if(ps.kiemTraTrung(id, listid)==false){
-//            id_product=id;
-//             setId_product(id_product);
-//            flag =1;
-//             do{
-//            System.out.println("nhap user name: ");
-//            String name = new Scanner(System.in).nextLine();
-//            ps.kiemTraTrung(name, listname);
-//            if(ps.kiemTraTrung(name, listname)==true){
-//                     flag2=1;
-//              
-//            }
-//            else{  
-//                name_product = name;
-//                setName_product(name_product);
-//              
-//            }
-//             }while(flag2==1);
-//             }else {
-//             
-//           
-//         }
-//        }while(flag!=1);
-//        
-//        
-//        System.out.println("nhap price: ");
-//           price = new Scanner(System.in).nextDouble();
-//           System.out.println("nhap quantity: ");
-//           quantity = new Scanner(System.in).nextInt();
-//           System.out.println("nhap type: ");
-//           type = new Scanner(System.in).nextLine();
-//           
+
+    public void output(){
+        System.out.println("san pham: ");
+        System.out.println("ID Product: "+idProduct);
+        System.out.println("Name Product: "+nameProduct);
+        System.out.println("ID User: " +user.getIdUser());
+        System.out.println("Quantity: "+quantity);
+        System.out.println("Type: "+type);
+        System.out.println("Price: "+price);
+        System.out.println("---------------");
+    }
 
 
     }

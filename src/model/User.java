@@ -51,33 +51,15 @@ public class User {
         this.idParent = idParent;
     }
 
+ public void output(){
+     System.out.println("Tai khoan nguoi dung");
+     System.out.println("ID User: "+idUser);
+     System.out.println("Name User: "+nameUser);
+     System.out.println("Role: "+role);
+     System.out.println("IP Parent: "+idParent);
+     System.out.println("---------");
+ }
  
-
-   
-// public void nhapUser(){
-//        UserDAO ud = new UserDAO();
-//        PermissionService ps = new PermissionService();
-//        List<String> listname = ud.getlistUserName();
-//
-//            int flag2 = 0;
-// 
-////             do{
-////            System.out.println("nhap user name: ");
-////            String name = new Scanner(System.in).nextLine();
-////            ps.kiemTraTrung(name, listname);
-////            if(ps.kiemTraTrung(name, listname)==true){
-////                     flag2=1;
-////              
-////            }
-////            else{  
-////                name_user = name;
-////                setName_user(name_user);
-////              
-////            }
-////             }while(flag2==1);
-//
-//}
-
  
 }
      

@@ -28,7 +28,7 @@ public class UserService {
 
     public void updateUser(User u, int id) {
 
-        if (validationService.checkUserHasPermissionOnUser(id)) {
+        if (validationService.LoggedInUserHasPermissionOnUser(id)) {
             userDao.updateUserByID(u, id);
         } else {
             System.out.println("khong sua duoc");
@@ -37,7 +37,7 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
-        if(validationService.checkUserHasPermissionOnUser(id)){
+        if(validationService.LoggedInUserHasPermissionOnUser(id)){
             userDao.deleteUserByID(id);
         } else {
             System.out.println("khong phai la nguoi tao user nen khong co quyen xoa");
