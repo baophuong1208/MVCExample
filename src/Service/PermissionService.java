@@ -91,11 +91,14 @@ public class PermissionService {
             if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
                 return true;
             }
-            if (loggedInUserHasRole(Arrays.asList("admin"))) {
+            if (loggedInUserHasRole(Arrays.asList("admin","user"))) {
                 if ((MainClass.idUserLogged == order.getUser().getIdUser()) || (MainClass.idUserLogged == order.getUser().getIdParent())) {
                     return true;
                 }
+                System.out.println("khong co quyen sua");
+                
             }
+
         }
         return false;
     }

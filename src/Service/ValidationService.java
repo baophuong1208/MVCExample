@@ -80,7 +80,7 @@ public class ValidationService {
     public boolean checkUserHasPermissionOnOrder(int id) {
         Orders order = orderDAO.getOrderById(id);
         if (Objects.nonNull(order)) {
-            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
+            if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin","user"))) {
                 if (permissionService.orderIsCreatedByLoggedInUser(id)) {
                     return true;
                 }

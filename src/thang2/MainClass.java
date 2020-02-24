@@ -99,7 +99,7 @@ public class MainClass {
                 break;
             }
             case 11: {
-                getListProduct();
+                getListOrder();
 
                 break;
             }
@@ -231,6 +231,23 @@ public class MainClass {
         product.output();
     }
 
+    private void getListOrder() {
+        List<Orders> list = orderDAO.getListOrder();
+        double thanhtien = 0;
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).output();
+            System.out.println("ID Product --- so luong:  ");
+            List<Product> listproduct = list.get(i).getListProduct();
+            for (int j = 0; j < listproduct.size(); j++) {
+                System.out.println(listproduct.get(j).getNameProduct() + "----" + listproduct.get(j).getQuantity());
+                thanhtien = thanhtien + (listproduct.get(j).getIdProduct() * listproduct.get(j).getQuantity());
+            }
+            System.out.println("thanh tien: " + thanhtien);
+            System.out.println("--------");
+
+        }
+    }
+
     private void createOrder() {
 
         int choose = 0;
@@ -249,7 +266,6 @@ public class MainClass {
                     break;
                 }
                 case 2: {
-//                    int x = 0;
                     List<Product> list = new ArrayList<>();
                     addProduct(list);
                     Orders ord = new Orders();
@@ -264,47 +280,11 @@ public class MainClass {
                         list.get(i).output();
                     }
                     break;
-//                    do {
-//                        System.out.println("nhap ten san pham can tim");
-//                        String name = input.nextLine();
-//                        Product p = productDAO.getProductByName(name);
-//
-//                        if (Objects.isNull(p)) {
-//                            return;
-//                        }
-//                        p.output();
-//                        System.out.println("nhap so luong san pham: ");
-//                        int quantity = Integer.parseInt(input.nextLine());
-//
-//                        product = new Product();
-//                        product.setIdProduct(p.getIdProduct());
-//                        product.setNameProduct(p.getNameProduct());
-//                        product.setUser(p.getUser());
-//                        product.setQuantity(quantity);
-//                        product.setType(p.getType());
-//                        product.setPrice(p.getPrice());
-//                        list.add(product);
-//                        System.out.println("chon 2 de tao hoa don, chon so khac de tiep tuc tim ");
-//                        x = Integer.parseInt(input.nextLine());
-//                    } while (x != 2);
-//
-//                    Orders ord = new Orders();
-//                    ord.setUser(userDao.getUserByID(MainClass.idUserLogged));
-//                    ord.setListProduct(list);
-//                    orderDAO.insertOrder(ord);
-//                    
-//                    orderDAO.insertOrderProduct(ord);
-//
-//                    ord.output();
-//                    for (int i = 0; i < list.size(); i++) {
-//                        list.get(i).output();
-//                    }
 
                 }
 
             }
-        } while (choose
-                != 3);
+        } while (choose != 3);
 
     }
 
@@ -312,49 +292,47 @@ public class MainClass {
         System.out.println("nhap idOrder can sua");
         int id = Integer.parseInt(new Scanner(System.in).nextLine());
         Orders order = orderDAO.getOrderById(id);
-        List<Product> list = order.getListProduct();
-        if (orderService.updateOrder(id)) {
-            int x = 0;
-            System.out.println("nhap thong tin can update: ");
-            System.out.println("thoi gian update = thoi gian hien tai");
-//            order.setTime(new Timestamp(System.currentTimeMillis()));
-            System.out.println("update san pham trong hoa don");
-            do {
-                System.out.println("1: them san pham vao hoa don: ");
-                System.out.println("2: sua thong tin san pham trong hoa don: ");
-                System.out.println("3: xoa san pham trong hoa don ");
-                System.out.println("4: thoat");
-                System.out.println("chon");
-                x = Integer.parseInt(new Scanner(System.in).nextLine());
-                switch (x) {
-                    case 1: {
-                        List<Product> listnew = new ArrayList<>();
-                        addProduct(listnew);
-                        order.setListProduct(listnew);
-                        orderDAO.updateProductInOrder(id, order);
-                        orderDAO.insertProductInOrderProduct(id, order);
+            List<Product> list = order.getListProduct();
+            if (orderService.updateOrder(id)) {
+                int x = 0;
+                System.out.println("nhap thong tin can update: ");
+                System.out.println("thoi gian update = thoi gian hien tai");
+                System.out.println("update san pham trong hoa don");
+                do {
+                    System.out.println("1: them san pham vao hoa don: ");
+                    System.out.println("2: sua thong tin san pham trong hoa don: ");
+                    System.out.println("3: xoa san pham trong hoa don ");
+                    System.out.println("4: thoat");
+                    System.out.println("chon");
+                    x = Integer.parseInt(new Scanner(System.in).nextLine());
+                    switch (x) {
+                        case 1: {
+                            List<Product> listnew = new ArrayList<>();
+                            addProduct(listnew);
+                            order.setListProduct(listnew);
+                            orderDAO.updateProductInOrder(id, order);
+                            orderDAO.insertProductInOrderProduct(id, order);
 
-                        break;
-                    }
-                    case 2: {
-                        updateListProductByNameProduct(list);
-                        order.setListProduct(list);
-                        orderDAO.updateProductInOrder(id, order);
-                        orderDAO.updateProductInOrderProduct(id, order);
-                        break;
-                    }
-                    case 3: {
-//                        deleteProductInList(list);
+                            break;
+                        }
+                        case 2: {
+                            updateListProductByNameProduct(list);
+                            order.setListProduct(list);
+                            orderDAO.updateProductInOrder(id, order);
+                            orderDAO.updateProductInOrderProduct(id, order);
+                            break;
+                        }
+                        case 3: {
 
-//                        order.setListProduct(list);
-                        System.out.println("nhap ten san pham can xoa: ");
-                        String name = input.nextLine();
-                        orderDAO.deleteProductInOrder(id, name);
-                        break;
-                    }
+                            System.out.println("nhap ten san pham can xoa: ");
+                            String name = input.nextLine();
+                            orderDAO.deleteProductInOrder(id, name);
+                            break;
+                        }
 
-                }
-            } while (x != 4);
+                    }
+                } while (x != 4);
+            
         }
     }
 
@@ -374,21 +352,12 @@ public class MainClass {
         } while (n != 2);
 
     }
-//    private void deleteProductInList(List<Product> list){
-//        System.out.println("nhap ten san pham can xoa: ");
-//        String name = input.nextLine();
-//        for (int i = 0; i < list.size(); i++) {
-//            if (list.get(i).getNameProduct().equals(name)) {
-//                list.remove(i);
-//            } 
-//    }
-//    }
 
     private void addProduct(List<Product> listnew) {
         int x = 0;
         do {
             System.out.println("nhap ten san pham can tim");
-            String name = input.nextLine();
+            String name = new Scanner(System.in).nextLine();
             Product p = productDAO.getProductByName(name);
 
             if (Objects.isNull(p)) {

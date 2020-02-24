@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -23,15 +24,12 @@ public class OrderService {
     private OrderDAO orderDAO = new OrderDAO();
     private Scanner input = new Scanner(System.in);
     private ValidationService validationService = new ValidationService();
+    private PermissionService permissionService = new PermissionService();
 
     public boolean updateOrder(int idOrder) {
         if (validationService.checkUserHasPermissionOnOrder(idOrder)) {
             return true;
         }
         return false;
-
     }
-    
-    
-    
 }

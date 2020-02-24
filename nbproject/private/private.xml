@@ -5,9 +5,12 @@
         <group>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/model/Orders.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/DAO/OrderDAO.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/model/Product.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/PermissionService.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/ProductService.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/OrderService.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/thang2/MainClass.java</file>
+            <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/UserService.java</file>
             <file>file:/C:/Users/Kien.NTK/Desktop/Phuong_git/thang2/src/Service/ValidationService.java</file>
         </group>
     </open-files>
