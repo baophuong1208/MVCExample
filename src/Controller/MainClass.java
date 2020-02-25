@@ -1,4 +1,4 @@
-package thang2;
+package Controller;
 
 import DAO.OrderDAO;
 import DAO.ProductDAO;

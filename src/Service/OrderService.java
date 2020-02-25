@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import model.Orders;
 import model.Product;
-import thang2.MainClass;
+import Controller.MainClass;
 
 public class OrderService {
 

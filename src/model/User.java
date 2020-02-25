@@ -6,7 +6,7 @@ import Service.PermissionService;
 import Service.UserService;
 import java.util.List;
 import java.util.Scanner;
-import thang2.MainClass;
+import Controller.MainClass;
 
 public class User {
     private int idUser;

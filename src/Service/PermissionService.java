@@ -10,7 +10,7 @@ import java.util.Objects;
 import model.Orders;
 import model.Product;
 import model.User;
-import thang2.MainClass;
+import Controller.MainClass;
 
 public class PermissionService {
 

@@ -4,8 +4,8 @@ import DAO.ProductDAO;
 import Service.PermissionService;
 import java.util.List;
 import java.util.Scanner;
-import thang2.MainClass;
-import static thang2.MainClass.idUserLogged;
+import Controller.MainClass;
+import static Controller.MainClass.idUserLogged;
 
 public class Product {
 
