@@ -21,21 +21,21 @@ public class ProductDAO {
     public List<Product> getListProduct() {
         try {
 
-            List<Product> listproduct = new ArrayList<>();
+            List<Product> listProduct = new ArrayList<>();
             String query = "select * from product";
             ps = connect.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Product pr = new Product();
-                pr.setIdProduct(rs.getInt(1));
-                pr.setNameProduct(rs.getString(2));
-                pr.setUser(new UserDAO().getUserByID(rs.getInt(3)));
-                pr.setQuantity(rs.getInt(4));
-                pr.setType(rs.getString(5));
-                pr.setPrice(rs.getDouble(6));
-                listproduct.add(pr);
+                Product product = new Product();
+                product.setIdProduct(rs.getInt(1));
+                product.setNameProduct(rs.getString(2));
+                product.setUser(new UserDAO().getUserByID(rs.getInt(3)));
+                product.setQuantity(rs.getInt(4));
+                product.setType(rs.getString(5));
+                product.setPrice(rs.getDouble(6));
+                listProduct.add(product);
             }
-            return listproduct;
+            return listProduct;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,15 +45,15 @@ public class ProductDAO {
     public List<Integer> getListIDProduct() {
         try {
 
-            List<Integer> listidproduct = new ArrayList<>();
+            List<Integer> listIDProduct = new ArrayList<>();
             String query = "select idProduct from product";
             ps = connect.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 int a = rs.getInt("idProduct");
-                listidproduct.add(a);
+                listIDProduct.add(a);
             }
-            return listidproduct;
+            return listIDProduct;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,39 +63,39 @@ public class ProductDAO {
     public List<String> getListNameProduct() {
         try {
 
-            List<String> listnameproduct = new ArrayList<>();
+            List<String> listNameProduct = new ArrayList<>();
             String query = "select nameProduct from product";
             ps = connect.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String a = rs.getString("nameProduct");
-                listnameproduct.add(a);
+                listNameProduct.add(a);
             }
-            return listnameproduct;
+            return listNameProduct;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    public Product getProductByID(int id) {
+    public Product getProductByID(int idProduct) {
         String query = "select * from product where idProduct = ?";
         try {
             ps = connect.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setInt(1, idProduct);
             rs = ps.executeQuery();
-             Product  pr = null;
+            Product product = null;
             while (rs.next()) {
-               pr = new Product();
-                pr.setIdProduct(rs.getInt(1));
-                pr.setNameProduct(rs.getString(2));
-                pr.setUser(new UserDAO().getUserByID(rs.getInt(3)));
-                pr.setQuantity(rs.getInt(4));
-                pr.setType(rs.getString(5));
-                pr.setPrice(rs.getDouble(6));              
+                product = new Product();
+                product.setIdProduct(rs.getInt(1));
+                product.setNameProduct(rs.getString(2));
+                product.setUser(new UserDAO().getUserByID(rs.getInt(3)));
+                product.setQuantity(rs.getInt(4));
+                product.setType(rs.getString(5));
+                product.setPrice(rs.getDouble(6));
             }
-               return pr;
-            
+            return product;
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,14 +109,14 @@ public class ProductDAO {
             ps.setString(1, name);
             rs = ps.executeQuery();
             Product product = null;
-            while(rs.next()){     
+            while (rs.next()) {
                 product = new Product();
                 product.setIdProduct(rs.getInt(1));
                 product.setNameProduct(rs.getString(2));
                 product.setUser(userDAO.getUserByID(rs.getInt(3)));
                 product.setQuantity(rs.getInt(4));
                 product.setType(rs.getString(5));
-                product.setPrice(rs.getDouble(6));  
+                product.setPrice(rs.getDouble(6));
             }
             return product;
         } catch (SQLException ex) {

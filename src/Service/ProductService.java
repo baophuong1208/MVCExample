@@ -3,9 +3,7 @@ package Service;
 
 import DAO.ProductDAO;
 import DAO.UserDAO;
-import java.util.Scanner;
 import model.Product;
-import model.User;
 
 
 public class ProductService {
@@ -17,16 +15,16 @@ public class ProductService {
         product.setUser(userDAO.getUserByID(permissionService.getLoggedInUserID()));      
         }
     
-    public void updateProduct(Product product, int id){
-        if (validationService.checkUserHasPermissionOnProduct(id)){
-            productDAO.updateProductByID(id,product);
+    public void updateProduct(Product product, int idProduct){
+        if (validationService.checkUserHasPermissionOnProduct(idProduct)){
+            productDAO.updateProductByID(idProduct,product);
         }
         return;
     }
     
-    public void deleteProduct(int idproduct){
-          if (validationService.checkUserHasPermissionOnProduct(idproduct)){
-            productDAO.deleteProductByID(idproduct);
+    public void deleteProduct(int idProduct){
+          if (validationService.checkUserHasPermissionOnProduct(idProduct)){
+            productDAO.deleteProductByID(idProduct);
         }
       
     }

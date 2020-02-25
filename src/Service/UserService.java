@@ -3,15 +3,6 @@ package Service;
 import Connection.ConnectDB;
 import DAO.UserDAO;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.User;
 
 public class UserService {
@@ -26,19 +17,19 @@ public class UserService {
 
     }
 
-    public void updateUser(User u, int id) {
+    public void updateUser(User u, int idUser) {
 
-        if (validationService.LoggedInUserHasPermissionOnUser(id)) {
-            userDao.updateUserByID(u, id);
+        if (validationService.LoggedInUserHasPermissionOnUser(idUser)) {
+            userDao.updateUserByID(u, idUser);
         } else {
             System.out.println("khong sua duoc");
             return;
         }
     }
 
-    public void deleteUser(int id) {
-        if(validationService.LoggedInUserHasPermissionOnUser(id)){
-            userDao.deleteUserByID(id);
+    public void deleteUser(int idUser) {
+        if(validationService.LoggedInUserHasPermissionOnUser(idUser)){
+            userDao.deleteUserByID(idUser);
         } else {
             System.out.println("khong phai la nguoi tao user nen khong co quyen xoa");
         }

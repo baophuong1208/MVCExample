@@ -1,9 +1,7 @@
 
 package model;
 
-import java.sql.Time;
 import java.util.List;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Orders {

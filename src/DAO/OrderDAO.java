@@ -1,17 +1,11 @@
 package DAO;
 
 import Connection.ConnectDB;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.LocalAttribute;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +22,7 @@ public class OrderDAO {
     public List<Orders> getListOrder() {
         String sql = "select orders.idOrder, orders.idUser, orders.time, orderproduct.idProduct, orderproduct.quantity from orders left join orderproduct on orders.idOrder = orderproduct.idOrder";
         List<Orders> list = new ArrayList<>();
-        List<Product> listproduct = new ArrayList<>();
+        List<Product> listProduct = new ArrayList<>();
         try {
             PreparedStatement ps = connect.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -39,13 +33,10 @@ public class OrderDAO {
                 order.setTime(rs.getTimestamp(3));
                 Product pr = productDAO.getProductByID(rs.getInt(4));
                 pr.setQuantity(rs.getInt(5));
-                listproduct.add(pr); 
-                order.setListProduct(listproduct);
+                listProduct.add(pr);
+                order.setListProduct(listProduct);
                 list.add(order);
-                    
-                }
-                
-            
+            }
             return list;
 
         } catch (SQLException ex) {
@@ -56,7 +47,7 @@ public class OrderDAO {
 
     }
 
-    public boolean updateProductInOrder(int idOrder, Orders order) {
+    public boolean updateProductsInOrder(int idOrder, Orders order) {
         String query = "update orders SET time=?, idUser =? where idOrder =?";
         try {
             PreparedStatement ps = connect.prepareStatement(query);
@@ -66,7 +57,6 @@ public class OrderDAO {
             int rs = ps.executeUpdate();
             if (rs != 0) {
                 return true;
-
             }
 
         } catch (SQLException ex) {
@@ -75,7 +65,7 @@ public class OrderDAO {
         return false;
     }
 
-    public boolean deleteProductInOrder(int idOrder, String nameProduct) {
+    public boolean deleteProductsInOrder(int idOrder, String nameProduct) {
         String query = "delete from  orderproduct where idOrder =? and idProduct=?;";
         Product product = productDAO.getProductByName(nameProduct);
         try {
@@ -93,7 +83,7 @@ public class OrderDAO {
 
     }
 
-    public boolean insertProductInOrderProduct(int idOrder, Orders order) {
+    public boolean insertProductsInOrderProduct(int idOrder, Orders order) {
         String query2 = "insert into orderproduct(idProduct,idOrder,quantity) values(?,?,?)";
 
         int rs2 = 0;
@@ -107,7 +97,6 @@ public class OrderDAO {
             }
             if (rs2 != 0) {
                 return true;
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +105,7 @@ public class OrderDAO {
 
     }
 
-    public boolean updateProductInOrderProduct(int idOrder, Orders order) {
+    public boolean updateProductsInOrderProduct(int idOrder, Orders order) {
         Orders order1 = getOrderById(idOrder);
         String query2 = "update orderproduct SET quantity=? where idOrder=? and idProduct=? ";
 
@@ -145,8 +134,8 @@ public class OrderDAO {
     public Orders getOrderById(int orderID) {
         String sql = "select *from orders where idOrder = ?";
 
-        List<Product> listproduct = new ArrayList<>();
-        Product pr = new Product();
+        List<Product> listProduct = new ArrayList<>();
+        Product product = new Product();
         String sql2 = "select idProduct, quantity from orderproduct where idOrder=?";
         try {
             PreparedStatement ps2 = connect.prepareStatement(sql2);
@@ -154,9 +143,9 @@ public class OrderDAO {
             ResultSet rs2 = ps2.executeQuery();
 
             while (rs2.next()) {
-                pr = productDAO.getProductByID(rs2.getInt(1));
-                pr.setQuantity(rs2.getInt(2));
-                listproduct.add(pr);
+                product = productDAO.getProductByID(rs2.getInt(1));
+                product.setQuantity(rs2.getInt(2));
+                listProduct.add(product);
 
             }
         } catch (SQLException ex) {
@@ -172,7 +161,7 @@ public class OrderDAO {
                 order.setIdOrder(rs.getInt(1));
                 order.setTime(rs.getTimestamp(2));
                 order.setUser(userDAO.getUserByID(rs.getInt(3)));
-                order.setListProduct(listproduct);
+                order.setListProduct(listProduct);
             }
             return order;
 
@@ -181,7 +170,6 @@ public class OrderDAO {
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-
     }
 
     public boolean insertOrder(Orders order) {
@@ -193,9 +181,7 @@ public class OrderDAO {
             ps.setInt(2, order.getUser().getIdUser());
             int rs = ps.executeUpdate();
             if (rs != 0) {
-
                 return true;
-
             }
 
         } catch (SQLException ex) {
@@ -231,7 +217,6 @@ public class OrderDAO {
                 ps2.setInt(3, order.getListProduct().get(i).getQuantity());
                 ps2.setInt(2, id);
                 rs2 = ps2.executeUpdate();
-
             }
             if (rs2 != 0) {
                 return true;

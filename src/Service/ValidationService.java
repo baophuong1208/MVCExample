@@ -14,10 +14,6 @@ import model.Orders;
 import model.Product;
 import model.User;
 
-/**
- *
- * @author nam-dep-trai
- */
 public class ValidationService {
 
     private UserDAO userDao = new UserDAO();
@@ -41,11 +37,11 @@ public class ValidationService {
         return true;
     }
 
-    public boolean LoggedInUserHasPermissionOnUser(int id) {
-        User user = userDao.getUserByID(id);
+    public boolean LoggedInUserHasPermissionOnUser(int idUser) {
+        User user = userDao.getUserByID(idUser);
         if (Objects.nonNull(user)) {
             if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
-                if (permissionService.isCreatedByLoggedInUser(id)) {
+                if (permissionService.isCreatedByLoggedInUser(idUser)) {
                     return true;
                 }
             }
@@ -63,8 +59,8 @@ public class ValidationService {
         return true;
     }
 
-    public boolean checkUserHasPermissionOnProduct(int id) {
-        Product product = productDAO.getProductByID(id);
+    public boolean checkUserHasPermissionOnProduct(int idProduct) {
+        Product product = productDAO.getProductByID(idProduct);
         if (Objects.nonNull(product)) {
             if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin"))) {
                 if (permissionService.productIsCreatedByLoggedInUser(product.getUser().getIdUser())) {
@@ -77,14 +73,13 @@ public class ValidationService {
         return false;
     }
 
-    public boolean checkUserHasPermissionOnOrder(int id) {
-        Orders order = orderDAO.getOrderById(id);
+    public boolean checkUserHasPermissionOnOrder(int idOrder) {
+        Orders order = orderDAO.getOrderById(idOrder);
         if (Objects.nonNull(order)) {
             if (permissionService.loggedInUserHasRole(Arrays.asList("superadmin", "admin","user"))) {
-                if (permissionService.orderIsCreatedByLoggedInUser(id)) {
+                if (permissionService.orderIsCreatedByLoggedInUser(idOrder)) {
                     return true;
                 }
-
             }
         }
         return false;

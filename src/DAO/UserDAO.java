@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,24 +21,20 @@ public class UserDAO {
 
         connect = ConnectDB.openconnect();
         try {
-            List<User> listuser = new ArrayList<>();
+            List<User> listUser = new ArrayList<>();
             String user_query = "select * from user";
 
             ps = connect.prepareStatement(user_query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User u = new User();
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                String role = rs.getString(3);
-                int idparent = rs.getInt(4);
-                u.setIdUser(id);
-                u.setNameUser(name);
-                u.setRole(role);
-                u.setIdParent(idparent);
-                listuser.add(u);
+                User user = new User();
+                user.setIdUser(rs.getInt(1));
+                user.setNameUser(rs.getString(2));
+                user.setRole(rs.getString(3));
+                user.setIdParent(rs.getInt(4));
+                listUser.add(user);
             }
-            return listuser;
+            return listUser;
 
         } catch (SQLException ex) {
 
@@ -50,9 +45,9 @@ public class UserDAO {
 
     }
 
-    public List<Integer> getlistID() {
+    public List<Integer> getListID() {
         
-        List<Integer> listid = new ArrayList();
+        List<Integer> listID = new ArrayList();
         String query = "select idUser from user";
         try {
 
@@ -60,18 +55,18 @@ public class UserDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("idUser");
-                listid.add(id);
+                listID.add(id);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        return listid;
+        return listID;
 
     }
 
-    public List<String> getlistUserName() {
-        List<String> listname = new ArrayList();
+    public List<String> getListUserName() {
+        List<String> listName = new ArrayList();
         String query = "select nameUser from user";
         try {
 
@@ -80,20 +75,19 @@ public class UserDAO {
             while (rs.next()) {
 
                 String string = rs.getString("nameUser");
-                listname.add(string);
+                listName.add(string);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listname;
+        return listName;
 
     }
 
     public boolean insertUser(User u) {
         try {
-
-            String themUser = "insert  into user(nameUser,role,idParent) values(?,?,?)";
+            String themUser = "insert into user(nameUser,role,idParent) values(?,?,?)";
             PreparedStatement createStatement = connect.prepareStatement(themUser);
             createStatement.setString(1, u.getNameUser());
             createStatement.setString(2, u.getRole());
@@ -112,18 +106,18 @@ public class UserDAO {
 
     public User getUserByID(int id) {
         try {
-            User u = new User();
+            User user = new User();
             String query = "select * from user where idUser=?";
             ps = connect.prepareStatement(query);
             ps.setInt(1, id);
              rs = ps.executeQuery();
             while (rs.next()) {
-                u.setIdUser(rs.getInt(1));
-                u.setNameUser(rs.getString(2));
-                u.setRole(rs.getString(3));
-                u.setIdParent(rs.getInt(4));
+                user.setIdUser(rs.getInt(1));
+                user.setNameUser(rs.getString(2));
+                user.setRole(rs.getString(3));
+                user.setIdParent(rs.getInt(4));
             }
-            return u;
+            return user;
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,18 +149,18 @@ public class UserDAO {
 
     public User getUserByRole(String role) {
         try {
-            User u = new User();
+            User user = new User();
             String query = "select * from user where role=?";
             ps = connect.prepareStatement(query);
             ps.setString(1, role);
             rs = ps.executeQuery();
             while (rs.next()) {
-                u.setIdUser(rs.getInt(1));
-                u.setNameUser(rs.getString(2));
-                u.setRole(rs.getString(3));
-                u.setIdParent(rs.getInt(4));
+                user.setIdUser(rs.getInt(1));
+                user.setNameUser(rs.getString(2));
+                user.setRole(rs.getString(3));
+                user.setIdParent(rs.getInt(4));
             }
-            return u;
+            return user;
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,14 +168,14 @@ public class UserDAO {
         return null;
     }
 
-    public boolean updateUserByID(User u, int id) {
+    public boolean updateUserByID(User u, int idUser) {
         try {
             String query = "update user SET nameUser=?, role=?, idParent=? where idUser=?";
             ps = connect.prepareStatement(query);
             ps.setString(1, u.getNameUser());
             ps.setString(2, u.getRole());
             ps.setInt(3, u.getIdParent());
-            ps.setInt(4, id);
+            ps.setInt(4, idUser);
             int rs = ps.executeUpdate();
             if (rs != 0) {
                 return true;

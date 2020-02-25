@@ -20,12 +20,12 @@ public class PermissionService {
 
     public boolean login(String name) {
 
-        User u = userDao.getUserByUserName(name);
-        if (Objects.isNull(u)) {
+        User user = userDao.getUserByUserName(name);
+        if (Objects.isNull(user)) {
             return false;
         } else {
-            MainClass.loginUser = u.getRole();
-            MainClass.idUserLogged = u.getIdUser();
+            MainClass.loginUser = user.getRole();
+            MainClass.idUserLogged = user.getIdUser();
             return true;
         }
     }
@@ -55,8 +55,8 @@ public class PermissionService {
         return false;
     }
 
-    public boolean isCreatedByLoggedInUser(int id) {
-        User u = userDao.getUserByID(id);
+    public boolean isCreatedByLoggedInUser(int idUser) {
+        User u = userDao.getUserByID(idUser);
         if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
         } else {
             return true;
@@ -69,8 +69,8 @@ public class PermissionService {
         return false;
     }
 
-    public boolean productIsCreatedByLoggedInUser(int id) {
-        Product product = productDAO.getProductByID(id);
+    public boolean productIsCreatedByLoggedInUser(int idProduct) {
+        Product product = productDAO.getProductByID(idProduct);
         if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
             return true;
         }
@@ -85,8 +85,8 @@ public class PermissionService {
 
     }
 
-    public boolean orderIsCreatedByLoggedInUser(int id) {
-        Orders order = orderDAO.getOrderById(id);
+    public boolean orderIsCreatedByLoggedInUser(int idOrder) {
+        Orders order = orderDAO.getOrderById(idOrder);
         if (Objects.nonNull(order)) {
             if (MainClass.loginUser.equalsIgnoreCase("superadmin")) {
                 return true;

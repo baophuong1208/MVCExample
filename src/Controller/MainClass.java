@@ -48,7 +48,7 @@ public class MainClass {
         System.out.println("11: xem order ");
         System.out.println("12: Tim kiem order theo id: ");
         System.out.println("13: Sua order");
-        System.out.println("15: Dang xuat");
+        System.out.println("14: Dang xuat");
 
         n = Integer.parseInt(input.nextLine());
 
@@ -56,7 +56,6 @@ public class MainClass {
             case 1: {
                 insertUser();
                 break;
-
             }
             case 2: {
                 updateUser();
@@ -87,7 +86,6 @@ public class MainClass {
 
             case 8: {
                 getProductByNameProduct();
-//                getProductByID();
                 break;
             }
             case 9: {
@@ -111,7 +109,7 @@ public class MainClass {
                 updateOrder();
                 break;
             }
-            case 15: {
+            case 14: {
                 permissionService.logout();
                 break;
             }
@@ -133,14 +131,14 @@ public class MainClass {
     }
 
     private User inputUser() {
-        User u = new User();
+        User user = new User();
         System.out.println("Nhap thong tin User");
         System.out.println("Nhap ten User");
-        u.setNameUser(input.nextLine());
+        user.setNameUser(input.nextLine());
         System.out.println("Nhap Role");
-        u.setRole(input.nextLine());
-        userService.insertUser(u);
-        return u;
+        user.setRole(input.nextLine());
+        userService.insertUser(user);
+        return user;
     }
 
     private void updateUser() {
@@ -148,8 +146,8 @@ public class MainClass {
             System.out.println("nhap idUser can sua");
             int id = Integer.parseInt(input.nextLine());
             System.out.println("nhap thong tin can sua");
-            User u = inputUser();
-            userService.updateUser(u, id);
+            User user = inputUser();
+            userService.updateUser(user, id);
 
         }
 
@@ -158,8 +156,8 @@ public class MainClass {
     private void deleteUser() {
         if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             System.out.println("nhap idUser can xoa");
-            int id = Integer.parseInt(input.nextLine());
-            userService.deleteUser(id);
+            int idUser = Integer.parseInt(input.nextLine());
+            userService.deleteUser(idUser);
         }
 
     }
@@ -177,18 +175,18 @@ public class MainClass {
     private void updateProduct() {
         if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             System.out.println("nhap id san pham can sua: ");
-            int id = Integer.parseInt(input.nextLine());
+            int idProduct = Integer.parseInt(input.nextLine());
             System.out.println("nhap thong tin san pham sua");
             Product product = inputProduct();
-            productService.updateProduct(product, id);
+            productService.updateProduct(product, idProduct);
         }
     }
 
     private void deleteProduct() {
         if (permissionService.loggedInUserHasRole(Arrays.asList("admin", "superadmin"))) {
             System.out.println("nhap idProduct can xoa");
-            int idproduct = Integer.parseInt(input.nextLine());
-            productService.deleteProduct(idproduct);
+            int idProduct = Integer.parseInt(input.nextLine());
+            productService.deleteProduct(idProduct);
         }
     }
 
@@ -237,10 +235,10 @@ public class MainClass {
         for (int i = 0; i < list.size(); i++) {
             list.get(i).output();
             System.out.println("ID Product --- so luong:  ");
-            List<Product> listproduct = list.get(i).getListProduct();
-            for (int j = 0; j < listproduct.size(); j++) {
-                System.out.println(listproduct.get(j).getNameProduct() + "----" + listproduct.get(j).getQuantity());
-                thanhtien = thanhtien + (listproduct.get(j).getIdProduct() * listproduct.get(j).getQuantity());
+            List<Product> listProduct = list.get(i).getListProduct();
+            for (int j = 0; j < listProduct.size(); j++) {
+                System.out.println(listProduct.get(j).getNameProduct() + "----" + listProduct.get(j).getQuantity());
+                thanhtien = thanhtien + (listProduct.get(j).getIdProduct() * listProduct.get(j).getQuantity());
             }
             System.out.println("thanh tien: " + thanhtien);
             System.out.println("--------");
@@ -268,32 +266,27 @@ public class MainClass {
                 case 2: {
                     List<Product> list = new ArrayList<>();
                     addProduct(list);
-                    Orders ord = new Orders();
-                    ord.setUser(userDao.getUserByID(MainClass.idUserLogged));
-                    ord.setListProduct(list);
-                    orderDAO.insertOrder(ord);
-
-                    orderDAO.insertOrderProduct(ord);
-
-                    ord.output();
+                    Orders order = new Orders();
+                    order.setUser(userDao.getUserByID(MainClass.idUserLogged));
+                    order.setListProduct(list);
+                    orderDAO.insertOrder(order);
+                    orderDAO.insertOrderProduct(order);
+                    order.output();
                     for (int i = 0; i < list.size(); i++) {
                         list.get(i).output();
                     }
                     break;
-
                 }
-
             }
         } while (choose != 3);
-
     }
 
     private void updateOrder() {
         System.out.println("nhap idOrder can sua");
-        int id = Integer.parseInt(new Scanner(System.in).nextLine());
-        Orders order = orderDAO.getOrderById(id);
+        int idOrder = Integer.parseInt(new Scanner(System.in).nextLine());
+        Orders order = orderDAO.getOrderById(idOrder);
             List<Product> list = order.getListProduct();
-            if (orderService.updateOrder(id)) {
+            if (orderService.updateOrder(idOrder)) {
                 int x = 0;
                 System.out.println("nhap thong tin can update: ");
                 System.out.println("thoi gian update = thoi gian hien tai");
@@ -310,23 +303,23 @@ public class MainClass {
                             List<Product> listnew = new ArrayList<>();
                             addProduct(listnew);
                             order.setListProduct(listnew);
-                            orderDAO.updateProductInOrder(id, order);
-                            orderDAO.insertProductInOrderProduct(id, order);
+                            orderDAO.updateProductsInOrder(idOrder, order);
+                            orderDAO.insertProductsInOrderProduct(idOrder, order);
 
                             break;
                         }
                         case 2: {
                             updateListProductByNameProduct(list);
                             order.setListProduct(list);
-                            orderDAO.updateProductInOrder(id, order);
-                            orderDAO.updateProductInOrderProduct(id, order);
+                            orderDAO.updateProductsInOrder(idOrder, order);
+                            orderDAO.updateProductsInOrderProduct(idOrder, order);
                             break;
                         }
                         case 3: {
 
                             System.out.println("nhap ten san pham can xoa: ");
                             String name = input.nextLine();
-                            orderDAO.deleteProductInOrder(id, name);
+                            orderDAO.deleteProductsInOrder(idOrder, name);
                             break;
                         }
 
@@ -419,7 +412,7 @@ public class MainClass {
             }
             running.Menu(n);
 
-        } while (n != 15);
+        } while (n != 14);
 
     }
 }

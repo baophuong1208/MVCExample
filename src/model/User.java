@@ -1,13 +1,5 @@
 
 package model;
-
-import DAO.UserDAO;
-import Service.PermissionService;
-import Service.UserService;
-import java.util.List;
-import java.util.Scanner;
-import Controller.MainClass;
-
 public class User {
     private int idUser;
     private String nameUser;

@@ -1,11 +1,5 @@
 package model;
 
-import DAO.ProductDAO;
-import Service.PermissionService;
-import java.util.List;
-import java.util.Scanner;
-import Controller.MainClass;
-import static Controller.MainClass.idUserLogged;
 
 public class Product {
 
